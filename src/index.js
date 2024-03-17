@@ -2,12 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import App2 from './App2';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter } from 'react-router-dom';
+//added this logic to switch between App1 vs App2
+const useApp1 = false;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      {useApp1 ? <App /> : <App2 />}
+    </BrowserRouter>
   </React.StrictMode>
 );
 

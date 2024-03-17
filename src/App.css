@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+.link-dog{
+  margin-left:10px;
+}
+.picker{
+  position: absolute;
+  bottom: 300px;
+  left:300px;
+}
+
+.color_link{
+  display: flex;
+  flex-direction: column;
+}
