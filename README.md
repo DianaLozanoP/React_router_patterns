@@ -1,70 +1,109 @@
-# Getting Started with Create React App
+## **Part 1: React Router Dog Finder**
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Build an app that routes to different dogs and displays information on that dog when you’re at that route.
 
-## Available Scripts
+The routes should look like this:
 
-In the project directory, you can run:
+- */dogs* is the homepage and shows all three dogs
+- Clicking on a dog from the homepage takes you to that dog’s route. For example, clicking on Whiskey will take you to */dogs/whiskey*.
+- every other endpoint not listed should redirect you to */dogs.*
 
-### `npm start`
+[react-router-dogfinder-starter-code.zip](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/87cd2dac-ab3f-463d-9956-f9fcd363a4f8/react-router-dogfinder-starter-code.zip)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### **Recommended Structure**
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+You can preload the *<App />* component with the following *defaultProps* for convenience:
 
-### `npm test`
+```jsx
+App.defaultProps = {
+  dogs: [
+    {
+      name: "Whiskey",
+      age: 5,
+      src: whiskey,
+      facts: [
+        "Whiskey loves eating popcorn.",
+        "Whiskey is a terrible guard dog.",
+        "Whiskey wants to cuddle with you!"
+      ]
+    },
+    {
+      name: "Duke",
+      age: 3,
+      src: duke,
+      facts: [
+        "Duke believes that ball is life.",
+        "Duke likes snow.",
+        "Duke enjoys pawing other dogs."
+      ]
+    },
+    {
+      name: "Perry",
+      age: 4,
+      src: perry,
+      facts: [
+        "Perry loves all humans.",
+        "Perry demolishes all snacks.",
+        "Perry hates the rain."
+      ]
+    },
+    {
+      name: "Tubby",
+      age: 4,
+      src: tubby,
+      facts: [
+        "Tubby is really stupid.",
+        "Tubby does not like walks.",
+        "Angelina used to hate Tubby, but claims not to anymore."
+      ]
+    }
+  ]
+}
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The *<App />* should render:
 
-### `npm run build`
+- a *<Nav />* component with the dogs’ names passed as props
+- a *<Switch>* with your *<Route />* declarations
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Here is an Example Snippet from the `render` method of *<App />* To Get You Started:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```jsx
+return (
+  <Switch>
+    <Route exact path="/dogs" >
+      <DogList /> // what props will this need?
+    </Route>
+    <Route path="/dogs/:name" >
+      <DogDetails /> // what props will this need?
+    </Route>
+    <Redirect to="/dogs" />
+  </Switch>
+);
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+In this example:
 
-### `npm run eject`
+- *<DogList />* takes all the dog info from the props of *<App />*
+- *<DogDetails />* shows all of the info about a single dog
+- In *<DogDetails />*, how will you derive the current dog, e.g. *whiskey*?
+- Bonus: is there a way to get the current dog *before* you render the component, passing *dog* instead of the entire list of dog data?
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## **Part 2: React Router Color Factory**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The goal of this exercise will be to use React Router to build an app that lets you view colors and add new colors.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### **User Stories**
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. As a user, I can go to */colors* to see a list of all available colors.
+2. As a user, I can click on one of the colors in my colors list and get taken to a page where I can see that color in all its glory.
+    
+    (The route here should be */colors/:color* )
+    
+3. As a user, I can click on a button to show a form that will let me add a new color.
+    
+    Note that you can give an *input* a type of *color* if you’re trying to select a color. (The route here should be */colors/new*)
+    
+4. As a user, when I submit my new color form, I am redirected to the colors index, and my new color appears at the top.
+5. As a user, if I try to navigate to a color page that does not exist (eg, */colors/nope*), I am redirected to the colors index page.
+6. As a user, if I try to navigate to an invalid url (eg, */this-is-not-valid*), I am redirected to the colors index page.
